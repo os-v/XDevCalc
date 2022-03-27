@@ -1,0 +1,56 @@
+
+PLATFORM = Win32
+TARGETBIN = .\Bin
+TARGETTEMP = .\Temp
+
+PROJECT = XDevCalc
+TARGETNAME = $(PROJECT).exe
+TARGETPATH = $(TARGETBIN)
+TARGETTEMP = $(TARGETTEMP)\$(PROJECT)
+
+SOURCEPATH = .
+INCLUDEPATH = /I"./Libs" /I"./Libs/mpir"
+LIBRARYPATH = /LIBPATH:"./Libs/mpir"
+DEFINES = /D WIN32 /D NDEBUG /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS
+LIBFILES = mpfr.lib mpir.lib mpirxx.lib
+CFLAGS = /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /Gm- /EHsc /MT /GS /Gy /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Gd
+LFLAGS = /INCREMENTAL:NO /NOLOGO /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /DYNAMICBASE /NXCOMPAT $(LIBRARYPATH) $(LIBFILES)
+CFLAGS = $(CFLAGS) $(INCLUDEPATH) $(DEFINES) /Fd$(TARGETTEMP)\$(PROJECT).pdb
+
+OBJFILES = \
+	$(TARGETTEMP)\DevCalc.obj \
+	$(TARGETTEMP)\TinyJS.obj \
+	$(TARGETTEMP)\TinyJS_Functions.obj \
+	$(TARGETTEMP)\TinyJS_MathFunctions.obj \
+	$(TARGETTEMP)\$(PROJECT).res
+
+all: prepare $(PROJECT)
+
+clean:
+	@if exist $(TARGETTEMP) rmdir /S /Q $(TARGETTEMP)
+	del Makefile
+
+prepare:
+	-mkdir $(TARGETBIN)
+	-mkdir $(TARGETTEMP)
+
+$(PROJECT): $(TARGETNAME)
+
+$(TARGETNAME) : $(OBJFILES)
+	link $(LFLAGS) /out:$(TARGETPATH)\$(TARGETNAME) $(OBJFILES)
+
+$(TARGETTEMP)\DevCalc.obj: $(SOURCEPATH)\Src\DevCalc.cpp
+	cl $(CFLAGS) /Fo$(TARGETTEMP)\DevCalc.obj $?
+ 
+$(TARGETTEMP)\TinyJS.obj: $(SOURCEPATH)\Libs\TinyJS\TinyJS.cpp
+	cl $(CFLAGS) /Fo$(TARGETTEMP)\TinyJS.obj $?
+ 
+$(TARGETTEMP)\TinyJS_Functions.obj: $(SOURCEPATH)\Libs\TinyJS\TinyJS_Functions.cpp
+	cl $(CFLAGS) /Fo$(TARGETTEMP)\TinyJS_Functions.obj $?
+ 
+$(TARGETTEMP)\TinyJS_MathFunctions.obj: $(SOURCEPATH)\Libs\TinyJS\TinyJS_MathFunctions.cpp
+	cl $(CFLAGS) /Fo$(TARGETTEMP)\TinyJS_MathFunctions.obj $?
+ 
+$(TARGETTEMP)\$(PROJECT).res : $(SOURCEPATH)\Src\Win32\AppRes.rc
+	rc /nologo /fo$(TARGETTEMP)\$(PROJECT).res $?
+

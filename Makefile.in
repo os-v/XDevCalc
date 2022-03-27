@@ -1,0 +1,52 @@
+
+DEBUG = @DEBUG@
+LIBFILES = @LIBFILES@
+INCLUDEPATH = @INCLUDEPATH@
+CC = @CC@
+CXX = @CXX@
+CFLAGS = @CFLAGS@
+LFLAGS = @LFLAGS@
+PCFLAGS = @PCFLAGS@
+
+PRODUCTNAME = XDevCalc
+
+TARGETBIN = ./Bin
+TARGETTMP = ./Temp
+
+PROJECT = XDevCalc
+TARGETNAME = $(PROJECT)
+TARGETPATH = $(TARGETBIN)
+TARGETTEMP = $(TARGETTMP)/$(PROJECT)
+
+SOURCEPATH = .
+
+OBJFILES = \
+	$(TARGETTEMP)/DevCalc.obj \
+	$(TARGETTEMP)/TinyJS.obj \
+	$(TARGETTEMP)/TinyJS_Functions.obj \
+	$(TARGETTEMP)/TinyJS_MathFunctions.obj
+
+all: prepare $(PROJECT)
+
+clean:
+	-rm -f -R $(TARGETTEMP)
+
+prepare:
+	-mkdir -p $(TARGETTEMP)
+	-mkdir -p $(TARGETPATH)
+
+$(PROJECT): $(OBJFILES)
+	$(CXX) $(LFLAGS) -o $(TARGETPATH)/$(TARGETNAME) $(OBJFILES) $(LIBFILES)
+
+$(TARGETTEMP)/DevCalc.obj: $(SOURCEPATH)/Src/DevCalc.cpp
+	$(CXX) $(CFLAGS) $(PCFLAGS) $(INCLUDEPATH) -o $(TARGETTEMP)/DevCalc.obj -c $?
+
+$(TARGETTEMP)/TinyJS.obj: $(SOURCEPATH)/Libs/TinyJS/TinyJS.cpp
+	$(CXX) $(CFLAGS) $(INCLUDEPATH) -o $(TARGETTEMP)/TinyJS.obj -c $?
+
+$(TARGETTEMP)/TinyJS_Functions.obj: $(SOURCEPATH)/Libs/TinyJS/TinyJS_Functions.cpp
+	$(CXX) $(CFLAGS) $(INCLUDEPATH) -o $(TARGETTEMP)/TinyJS_Functions.obj -c $?
+
+$(TARGETTEMP)/TinyJS_MathFunctions.obj: $(SOURCEPATH)/Libs/TinyJS/TinyJS_MathFunctions.cpp
+	$(CXX) $(CFLAGS) $(INCLUDEPATH) -o $(TARGETTEMP)/TinyJS_MathFunctions.obj -c $?
+
