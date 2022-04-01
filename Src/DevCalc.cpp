@@ -160,6 +160,7 @@ bool ParseArgs(int argc, char** argv, ARGS& pArgs, CConfigFileInfo& pConfig)
 		printf("\t-s - print output to stdout\r\n");
 		printf("\t-c - print output to command line\r\n");
 		printf("\t-p - print d-dec,o-oct,h-hex,b-bin\r\n");
+		printf("version: %s\r\n", PRODUCT_SVERSION);
 		printf("please visit %s for updates\r\n", PRODUCT_URL);
 		return false;
 	}

@@ -191,8 +191,8 @@ public:
 	std::vector<std::string> EnumGroups()
 	{
 		std::vector<std::string> pResult;
-		for (auto &pGroup : m_pItems)
-			pResult.push_back(pGroup.first);
+		for (CVarGroup::const_iterator pGroup = m_pItems.begin(); pGroup != m_pItems.end(); pGroup++)
+			pResult.push_back(pGroup->first);
 		return pResult;
 	}
 
@@ -201,8 +201,8 @@ public:
 		std::vector<std::string> pResult;
 		CVarGroup::iterator pGroup = m_pItems.find(lpGroup);
 		if(pGroup != m_pItems.end())
-			for (auto &pGroup : pGroup->second)
-				pResult.push_back(pGroup.first);
+			for (CVarMap::const_iterator pVar = pGroup->second.begin(); pVar != pGroup->second.end(); pVar++)
+				pResult.push_back(pVar->first);
 		return pResult;
 	}
 
@@ -211,8 +211,8 @@ public:
 		std::vector<std::string> pResult;
 		CVarGroup::iterator pGroup = m_pItems.find(lpGroup);
 		if(pGroup != m_pItems.end())
-			for (auto &pGroup : pGroup->second)
-				pResult.push_back(pGroup.second);
+			for (CVarMap::const_iterator pVar = pGroup->second.begin(); pVar != pGroup->second.end(); pVar++)
+				pResult.push_back(pVar->second);
 		return pResult;
 	}
 
