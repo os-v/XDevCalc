@@ -33,10 +33,11 @@ enum { EPrintAll = 0x00, EPrintDec = 0x01, EPrintOct = 0x02, EPrintHex = 0x04, E
 
 typedef struct ARGS {
 	std::string Expr;
-	bool Help, Defaults, PrintStd, PrintCmd;
+	bool Help, FuncHelp, Defaults, PrintStd, PrintCmd;
 	uint32_t PrintOpt, Precision;
 } *PARGS;
 
+void PrintFuncHelp();
 bool ParseArgs(int argc, char** argv, ARGS& pArgs, CConfigFileInfo& pConfig);
 std::string ToString(const mpf_class& pValue);
 std::string ToString(const mpz_class& pValue, int nBase, const mpz_class& pNegative);
@@ -110,11 +111,31 @@ int main(int argc, char **argv)
 	return 0;
 }
 
+void PrintFuncHelp()
+{
+
+	printf(
+		"\tSupported functions:\r\n"
+		"\t\tabs(a), round(a), min(a,b), max(a,b), range(x,a,b), sign(a),\r\n"
+		"\t\tPI(), deg(a), rad(a), sin(a), asin(a), cos(a), acos(a), tan(a),\r\n"
+		"\t\tatan(a), sinh(a), asinh(a), cosh(a), acosh(a), tanh(a), atanh(a),\r\n"
+		"\t\tE(), log(a), log10(a), exp(a), pow(a,b), sqr(a), sqrt(a),\r\n"
+		"\t\trand(), randInt(min, max), charToInt(c), int(a), uint(a)\r\n"
+		"\tSupported operators:\r\n"
+		"\t\tarithmetic +, -, *, /, %%\r\n"
+		"\t\tbitwise: ~, &, |, ^, <<, >>\r\n"
+		"\t\tlogical: !, ||, &&\r\n"
+		"\t\trelational: <, >, <=, >=, ==, !=\r\n"
+		"\t\tconditional: condition ? expression_if_true : expression_if_false\r\n"
+	);
+
+}
+
 bool ParseArgs(int argc, char** argv, ARGS& pArgs, CConfigFileInfo& pConfig)
 {
 
 	pArgs.Expr = "";
-	pArgs.Help = pArgs.Defaults = false;
+	pArgs.Help = pArgs.FuncHelp = pArgs.Defaults = false;
 	pArgs.PrintStd = pConfig.GetBool(CFG_MAIN, CFG_PRINTSTD, true);
 	pArgs.PrintCmd = pConfig.GetBool(CFG_MAIN, CFG_PRINTCMD, false);
 	pArgs.PrintOpt = pConfig.GetInt(CFG_MAIN, CFG_PRINTOPT, EPrintAll);
@@ -125,6 +146,8 @@ bool ParseArgs(int argc, char** argv, ARGS& pArgs, CConfigFileInfo& pConfig)
 		const char* lpArg = argv[iArg];
 		if (!strcmp(lpArg, "-h"))
 			pArgs.Help = true;
+		else if (!strcmp(lpArg, "-f"))
+			pArgs.FuncHelp = true;
 		else if (!strcmp(lpArg, "-d"))
 			pArgs.Defaults = true;
 		else if (!strncmp(lpArg, "-r", 2))
@@ -151,10 +174,17 @@ bool ParseArgs(int argc, char** argv, ARGS& pArgs, CConfigFileInfo& pConfig)
 			pArgs.Expr = argv[iArg];
 	}
 
+	if (pArgs.FuncHelp)
+	{
+		PrintFuncHelp();
+		return false;
+	}
+
 	if (pArgs.Help || pArgs.Expr.empty())
 	{
 		printf("%s [-h][-d][-s][-c][-rNUM][-p[d|o|h|b]] expression\r\n", GAppName.c_str());
 		printf("\t-h - current help\r\n");
+		printf("\t-f - show functions help\r\n");
 		printf("\t-d - update defaults\r\n");
 		printf("\t-r - precision NUM bits\r\n");
 		printf("\t-s - print output to stdout\r\n");

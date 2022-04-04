@@ -326,8 +326,8 @@ void registerMathFunctions(CTinyJS *tinyJS) {
     tinyJS->addNative("function sign(a)", scMathSign, 0);
     
     tinyJS->addNative("function PI()", scMathPI, 0);
-    tinyJS->addNative("function toDegrees(a)", scMathToDegrees, 0);
-    tinyJS->addNative("function toRadians(a)", scMathToRadians, 0);
+    tinyJS->addNative("function deg(a)", scMathToDegrees, 0);
+    tinyJS->addNative("function rad(a)", scMathToRadians, 0);
     tinyJS->addNative("function sin(a)", scMathSin, 0);
     tinyJS->addNative("function asin(a)", scMathASin, 0);
     tinyJS->addNative("function cos(a)", scMathCos, 0);
