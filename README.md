@@ -1,14 +1,12 @@
 
 # XDevCalc - Cross platform open source bignumber expression based developer mode calculator.
 
-
 ## Latest release downloads
 <p>
 	<a href="https://github.com/os-v/XDevCalc/files/8406954/xdc-1.0.1-Linux.zip">Linux</a><br>
 	<a href="https://github.com/os-v/XDevCalc/files/8406955/xdc-1.0.1-MacOS.zip">OSX</a><br>
 	<a href="https://github.com/os-v/XDevCalc/files/8406956/xdc-1.0.1-Win32.zip">Windows</a><br>
 </p>
-
 
 ## Current Features
 - Cross platform (Windows, macOS, Linux, FreeBSD, etc.)
