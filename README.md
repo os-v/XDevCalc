@@ -3,9 +3,9 @@
 
 ## Latest release downloads
 <ul>
-	<li><a href="https://github.com/os-v/XDevCalc/files/8406954/xdc-1.0.1-Linux.zip">Linux</a></li>
-	<li><a href="https://github.com/os-v/XDevCalc/files/8406955/xdc-1.0.1-MacOS.zip">OSX</a></li>
-	<li><a href="https://github.com/os-v/XDevCalc/files/8406956/xdc-1.0.1-Win32.zip">Windows</a></li>
+	<li><a href="https://github.com/os-v/XDevCalc/files/8776590/xdc-1.0.1-Linux.zip">Linux</a></li>
+	<li><a href="https://github.com/os-v/XDevCalc/files/8776595/xdc-1.0.1-MacOS.zip">OSX</a></li>
+	<li><a href="https://github.com/os-v/XDevCalc/files/8776591/xdc-1.0.1-Win32.zip">Windows</a></li>
 </ul>
 
 ## Current Features
