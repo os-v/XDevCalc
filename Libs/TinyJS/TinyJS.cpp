@@ -292,19 +292,21 @@ CScriptException::CScriptException(const string &exceptionText) {
 
 // ----------------------------------------------------------------------------------- CSCRIPTLEX
 
-CScriptLex::CScriptLex(const string &input) {
+CScriptLex::CScriptLex(const string &input, LEX_TYPES eDefNumType) {
     data = _strdup(input.c_str());
     dataOwned = true;
     dataStart = 0;
     dataEnd = strlen(data);
+    m_eDefNumType = eDefNumType;
     reset();
 }
 
-CScriptLex::CScriptLex(CScriptLex *owner, int startChar, int endChar) {
+CScriptLex::CScriptLex(CScriptLex *owner, int startChar, int endChar, LEX_TYPES eDefNumType) {
     data = owner->data;
     dataOwned = false;
     dataStart = startChar;
     dataEnd = endChar;
+    m_eDefNumType = eDefNumType;
     reset();
 }
 
@@ -473,7 +475,9 @@ void CScriptLex::getNextToken() {
              tkStr += currCh; getNextCh();
           }
         }
-    } else if (currCh=='"') {
+		if(tk != LEX_FLOAT && m_eDefNumType)
+			tk = m_eDefNumType;
+	} else if (currCh=='"') {
         // strings...
         getNextCh();
         while (currCh && currCh!='"') {
@@ -622,9 +626,9 @@ string CScriptLex::getSubString(int lastPosition) {
 CScriptLex *CScriptLex::getSubLex(int lastPosition) {
     int lastCharIdx = tokenLastEnd+1;
     if (lastCharIdx < dataEnd)
-        return new CScriptLex(this, lastPosition, lastCharIdx);
+        return new CScriptLex(this, lastPosition, lastCharIdx, m_eDefNumType);
     else
-        return new CScriptLex(this, lastPosition, dataEnd );
+        return new CScriptLex(this, lastPosition, dataEnd, m_eDefNumType);
 }
 
 string CScriptLex::getPosition(int pos) {
@@ -1286,7 +1290,7 @@ int CScriptVar::getRefs() {
 
 // ----------------------------------------------------------------------------------- CSCRIPT
 
-CTinyJS::CTinyJS() {
+CTinyJS::CTinyJS(LEX_TYPES eDefNumType) : m_eDefNumType(eDefNumType) {
     l = 0;
     root = (new CScriptVar(TINYJS_BLANK_DATA, SCRIPTVAR_OBJECT))->ref();
     // Add built-in classes
@@ -1318,7 +1322,7 @@ void CTinyJS::trace() {
 void CTinyJS::execute(const string &code) {
     CScriptLex *oldLex = l;
     vector<CScriptVar*> oldScopes = scopes;
-    l = new CScriptLex(code);
+    l = new CScriptLex(code, m_eDefNumType);
 #ifdef TINYJS_CALL_STACK
     call_stack.clear();
 #endif
@@ -1349,7 +1353,7 @@ CScriptVarLink CTinyJS::evaluateComplex(const string &code) {
     CScriptLex *oldLex = l;
     vector<CScriptVar*> oldScopes = scopes;
 
-    l = new CScriptLex(code);
+    l = new CScriptLex(code, m_eDefNumType);
 #ifdef TINYJS_CALL_STACK
     call_stack.clear();
 #endif
@@ -1405,7 +1409,7 @@ void CTinyJS::parseFunctionArguments(CScriptVar *funcVar) {
 
 void CTinyJS::addNative(const string &funcDesc, JSCallback ptr, void *userdata) {
     CScriptLex *oldLex = l;
-    l = new CScriptLex(funcDesc);
+    l = new CScriptLex(funcDesc, m_eDefNumType);
 
     CScriptVar *base = root;
 
@@ -1504,7 +1508,7 @@ CScriptVarLink *CTinyJS::functionCall(bool &execute, CScriptVarLink *function, C
          * we want to be careful here... */
         CScriptException *exception = 0;
         CScriptLex *oldLex = l;
-        CScriptLex *newLex = new CScriptLex(function->var->getString());
+        CScriptLex *newLex = new CScriptLex(function->var->getString(), m_eDefNumType);
         l = newLex;
         try {
           block(execute);

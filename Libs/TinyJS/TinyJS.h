@@ -144,8 +144,8 @@ public:
 class CScriptLex
 {
 public:
-    CScriptLex(const std::string &input);
-    CScriptLex(CScriptLex *owner, int startChar, int endChar);
+    CScriptLex(const std::string &input, LEX_TYPES eDefNumType);
+    CScriptLex(CScriptLex *owner, int startChar, int endChar, LEX_TYPES eDefNumType);
     ~CScriptLex(void);
 
     char currCh, nextCh;
@@ -171,6 +171,7 @@ protected:
     char *data; ///< Data string to get tokens from
     int dataStart, dataEnd; ///< Start and end position in data string
     bool dataOwned; ///< Do we own this data string?
+    LEX_TYPES m_eDefNumType;
 
     int dataPos; ///< Position in data (we CAN go past the end of the string here)
 
@@ -290,7 +291,7 @@ protected:
 
 class CTinyJS {
 public:
-    CTinyJS();
+    CTinyJS(LEX_TYPES eDefNumType);
     ~CTinyJS();
 
     void execute(const std::string &code);
@@ -332,11 +333,12 @@ public:
 
     CScriptVar *root;   /// root of symbol table
 private:
-    CScriptLex *l;             /// current lexer
+	CScriptLex *l;             /// current lexer
     std::vector<CScriptVar*> scopes; /// stack of scopes when parsing
 #ifdef TINYJS_CALL_STACK
     std::vector<std::string> call_stack; /// Names of places called so we can show when erroring
 #endif
+	LEX_TYPES m_eDefNumType;
 
     CScriptVar *stringClass; /// Built in string class
     CScriptVar *objectClass; /// Built in object class

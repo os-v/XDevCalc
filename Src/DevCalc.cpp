@@ -25,16 +25,24 @@
 #define CFG_PRINTCMD		"PrintCmd"
 #define CFG_PRINTOPT		"PrintOpt"
 #define CFG_PRECISION		"Precision"
+#define CFG_NUMERICTYPE		"NumericType"
 
 std::string GAppName;
 gmp_randclass GRandClass(gmp_randinit_default);
 
 enum { EPrintAll = 0x00, EPrintDec = 0x01, EPrintOct = 0x02, EPrintHex = 0x04, EPrintBin = 0x08 };
+enum { ENumericTypeDefault = 0, ENumericTypeFloat };
 
 typedef struct ARGS {
 	std::string Expr;
-	bool Help, FuncHelp, Defaults, PrintStd, PrintCmd;
-	uint32_t PrintOpt, Precision;
+	bool Help;
+	bool FuncHelp;
+	bool Defaults;
+	bool PrintStd;
+	bool PrintCmd;
+	uint32_t PrintOpt;
+	uint32_t Precision;
+	uint32_t NumericType;
 } *PARGS;
 
 void PrintFuncHelp();
@@ -62,10 +70,6 @@ int main(int argc, char **argv)
 	GRandClass.seed(pTimeSpec.tv_nsec / 1000000);
 #endif
 
-	CTinyJS pTinyJS;
-	registerFunctions(&pTinyJS);
-	registerMathFunctions(&pTinyJS);
-
 	ARGS pArgs;
 	if (!ParseArgs(argc, argv, pArgs, pConfig))
 		return -1;
@@ -73,9 +77,15 @@ int main(int argc, char **argv)
 	if (pArgs.Precision)
 		mpf_set_default_prec(pArgs.Precision);
 
+	LEX_TYPES eTypes = pArgs.NumericType == ENumericTypeFloat ? LEX_FLOAT : LEX_EOF;
+
+	CTinyJS pTinyJS(eTypes);
+	registerFunctions(&pTinyJS);
+	registerMathFunctions(&pTinyJS);
+
 	try
 	{
-		CScriptVarLink pResult = pTinyJS.evaluateComplex(pArgs.Expr, LEX_EOF);
+		CScriptVarLink pResult = pTinyJS.evaluateComplex(pArgs.Expr);
 		std::string sResult = "";
 		if (pResult.var->isInt() || pResult.var->isDouble())
 		{
@@ -140,6 +150,7 @@ bool ParseArgs(int argc, char** argv, ARGS& pArgs, CConfigFileInfo& pConfig)
 	pArgs.PrintCmd = pConfig.GetBool(CFG_MAIN, CFG_PRINTCMD, false);
 	pArgs.PrintOpt = pConfig.GetInt(CFG_MAIN, CFG_PRINTOPT, EPrintAll);
 	pArgs.Precision = pConfig.GetInt(CFG_MAIN, CFG_PRECISION, 1024);
+	pArgs.NumericType = pConfig.GetInt(CFG_MAIN, CFG_NUMERICTYPE, 0);
 
 	for (int iArg = 1; iArg < argc; iArg++)
 	{
@@ -156,6 +167,10 @@ bool ParseArgs(int argc, char** argv, ARGS& pArgs, CConfigFileInfo& pConfig)
 			pArgs.PrintStd = true;
 		else if (!strcmp(lpArg, "-c"))
 			pArgs.PrintCmd = true;
+		else if (!strcmp(lpArg, "-t") || !strcmp(lpArg, "-td"))
+			pArgs.NumericType = ENumericTypeDefault;
+		else if (!strcmp(lpArg, "-tf"))
+			pArgs.NumericType = ENumericTypeFloat;
 		else if (!strncmp(lpArg, "-p", 2))
 		{
 			for (const char* lpParam = lpArg + 2; *lpParam; lpParam++)
@@ -190,6 +205,7 @@ bool ParseArgs(int argc, char** argv, ARGS& pArgs, CConfigFileInfo& pConfig)
 		printf("\t-s - print output to stdout\r\n");
 		printf("\t-c - print output to command line\r\n");
 		printf("\t-p - print d-dec,o-oct,h-hex,b-bin\r\n");
+		printf("\t-t - numebers type, f-float, d-by definition (float defined with . like 1.0)\r\n");
 		printf("version: %s\r\n", PRODUCT_SVERSION);
 		printf("please visit %s for updates\r\n", PRODUCT_URL);
 		return false;
@@ -201,6 +217,7 @@ bool ParseArgs(int argc, char** argv, ARGS& pArgs, CConfigFileInfo& pConfig)
 		pConfig.SetBool(CFG_MAIN, CFG_PRINTCMD, pArgs.PrintCmd);
 		pConfig.SetInt(CFG_MAIN, CFG_PRINTOPT, pArgs.PrintOpt);
 		pConfig.SetInt(CFG_MAIN, CFG_PRECISION, pArgs.Precision);
+		pConfig.SetInt(CFG_MAIN, CFG_NUMERICTYPE, pArgs.NumericType);
 		pConfig.Save();
 	}
 
