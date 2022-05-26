@@ -18,6 +18,8 @@ LFLAGS = /INCREMENTAL:NO /NOLOGO /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /DYNAMICBA
 CFLAGS = $(CFLAGS) $(INCLUDEPATH) $(DEFINES) /Fd$(TARGETTEMP)\$(PROJECT).pdb
 
 OBJFILES = \
+	$(TARGETTEMP)\Config.obj \
+	$(TARGETTEMP)\Helper.obj \
 	$(TARGETTEMP)\DevCalc.obj \
 	$(TARGETTEMP)\TinyJS.obj \
 	$(TARGETTEMP)\TinyJS_Functions.obj \
@@ -39,6 +41,12 @@ $(PROJECT): $(TARGETNAME)
 $(TARGETNAME) : $(OBJFILES)
 	link $(LFLAGS) /out:$(TARGETPATH)\$(TARGETNAME) $(OBJFILES)
 
+$(TARGETTEMP)\Config.obj: $(SOURCEPATH)\Src\Config.cpp
+	cl $(CFLAGS) /Fo$(TARGETTEMP)\Config.obj $?
+ 
+$(TARGETTEMP)\Helper.obj: $(SOURCEPATH)\Src\Helper.cpp
+	cl $(CFLAGS) /Fo$(TARGETTEMP)\Helper.obj $?
+ 
 $(TARGETTEMP)\DevCalc.obj: $(SOURCEPATH)\Src\DevCalc.cpp
 	cl $(CFLAGS) /Fo$(TARGETTEMP)\DevCalc.obj $?
  

@@ -21,6 +21,8 @@ TARGETTEMP = $(TARGETTMP)/$(PROJECT)
 SOURCEPATH = .
 
 OBJFILES = \
+	$(TARGETTEMP)/Config.obj \
+	$(TARGETTEMP)/Helper.obj \
 	$(TARGETTEMP)/DevCalc.obj \
 	$(TARGETTEMP)/TinyJS.obj \
 	$(TARGETTEMP)/TinyJS_Functions.obj \
@@ -38,6 +40,12 @@ prepare:
 $(PROJECT): $(OBJFILES)
 	$(CXX) $(LFLAGS) -o $(TARGETPATH)/$(TARGETNAME) $(OBJFILES) $(LIBFILES)
 
+$(TARGETTEMP)/Config.obj: $(SOURCEPATH)/Src/Config.cpp
+	$(CXX) $(CFLAGS) $(PCFLAGS) $(INCLUDEPATH) -o $(TARGETTEMP)/Config.obj -c $?
+ 
+$(TARGETTEMP)/Helper.obj: $(SOURCEPATH)/Src/Helper.cpp
+	$(CXX) $(CFLAGS) $(PCFLAGS) $(INCLUDEPATH) -o $(TARGETTEMP)/Helper.obj -c $?
+ 
 $(TARGETTEMP)/DevCalc.obj: $(SOURCEPATH)/Src/DevCalc.cpp
 	$(CXX) $(CFLAGS) $(PCFLAGS) $(INCLUDEPATH) -o $(TARGETTEMP)/DevCalc.obj -c $?
 

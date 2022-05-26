@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include=".\Libs\TinyJS\TinyJS.cpp">
+      <Filter>Libs\TinyJS</Filter>
+    </ClCompile>
+    <ClCompile Include=".\Libs\TinyJS\TinyJS_Functions.cpp">
+      <Filter>Libs\TinyJS</Filter>
+    </ClCompile>
+    <ClCompile Include=".\Libs\TinyJS\TinyJS_MathFunctions.cpp">
+      <Filter>Libs\TinyJS</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Config.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include=".\Src\DevCalc.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Helper.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include=".\Libs\ConfigFileInfo.h">
+      <Filter>Libs</Filter>
+    </ClInclude>
+    <ClInclude Include=".\Libs\TinyJS\TinyJS.h">
+      <Filter>Libs\TinyJS</Filter>
+    </ClInclude>
+    <ClInclude Include=".\Libs\TinyJS\TinyJS_Functions.h">
+      <Filter>Libs\TinyJS</Filter>
+    </ClInclude>
+    <ClInclude Include=".\Libs\TinyJS\TinyJS_MathFunctions.h">
+      <Filter>Libs\TinyJS</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Config.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include=".\Src\DevCalc.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Helper.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Libs">
+      <UniqueIdentifier>{7601fa5f-2473-4333-befb-7c1115477259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libs\TinyJS">
+      <UniqueIdentifier>{141598bb-8a62-44ea-9209-30bd9e5b66d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{82a4c6f6-a46a-4989-9ada-f33b7dce2b1e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
