@@ -7,8 +7,8 @@
 //  Copyright 2022 Sergii Oryshchenko. All rights reserved.
 //
 
-#define PRODUCT_VERSION			1,0,1,0
-#define PRODUCT_SVERSION		"1.0.1"
+#define PRODUCT_VERSION			1,1,0,0
+#define PRODUCT_SVERSION		"1.1.0"
 
 #define PRODUCT_URL			"https://github.com/os-v/XDevCalc"
 #define PRODUCT_PRODUCTNAME		"CrossPlatform Developer Calculator [XDevCalc]"
