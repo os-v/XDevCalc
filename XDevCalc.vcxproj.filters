@@ -19,6 +19,9 @@
     <ClCompile Include="Src\Helper.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="Libs\mputils.cpp">
+      <Filter>Libs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include=".\Libs\ConfigFileInfo.h">
@@ -41,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="Src\Helper.h">
       <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\mputils.h">
+      <Filter>Libs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

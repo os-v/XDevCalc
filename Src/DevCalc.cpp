@@ -10,6 +10,7 @@
 #include <TinyJS/TinyJS.h>
 #include <TinyJS/TinyJS_Functions.h>
 #include <TinyJS/TinyJS_MathFunctions.h>
+#include <mputils.h>
 #include "DevCalc.h"
 #include "Config.h"
 #include "Helper.h"

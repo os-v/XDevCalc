@@ -30,6 +30,7 @@ void PrintMainHelp()
 	printf("\t-c - print output to command line\r\n");
 	printf("\t-p - print d-dec,o-oct,h-hex,b-bin\r\n");
 	printf("\t-t - numebers type, f-float, d-by definition (float defined with . like 1.0)\r\n");
+	printf("\tSupported formats: 0x3F-hex, 0b101-bin, 077-oct, 199-dec, 1.3-float\r\n");
 	printf("version: %s\r\n", PRODUCT_SVERSION);
 	printf("please visit %s for updates\r\n", PRODUCT_URL);
 }

@@ -21,6 +21,7 @@ OBJFILES = \
 	$(TARGETTEMP)\Config.obj \
 	$(TARGETTEMP)\Helper.obj \
 	$(TARGETTEMP)\DevCalc.obj \
+	$(TARGETTEMP)\mputils.obj \
 	$(TARGETTEMP)\TinyJS.obj \
 	$(TARGETTEMP)\TinyJS_Functions.obj \
 	$(TARGETTEMP)\TinyJS_MathFunctions.obj \
@@ -49,6 +50,9 @@ $(TARGETTEMP)\Helper.obj: $(SOURCEPATH)\Src\Helper.cpp
  
 $(TARGETTEMP)\DevCalc.obj: $(SOURCEPATH)\Src\DevCalc.cpp
 	cl $(CFLAGS) /Fo$(TARGETTEMP)\DevCalc.obj $?
+ 
+$(TARGETTEMP)\mputils.obj: $(SOURCEPATH)\Libs\mputils.cpp
+	cl $(CFLAGS) /Fo$(TARGETTEMP)\mputils.obj $?
  
 $(TARGETTEMP)\TinyJS.obj: $(SOURCEPATH)\Libs\TinyJS\TinyJS.cpp
 	cl $(CFLAGS) /Fo$(TARGETTEMP)\TinyJS.obj $?

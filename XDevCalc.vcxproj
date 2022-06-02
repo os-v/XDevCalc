@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -174,6 +175,7 @@
     <ClCompile Include=".\Libs\TinyJS\TinyJS_Functions.cpp" />
     <ClCompile Include=".\Libs\TinyJS\TinyJS_MathFunctions.cpp" />
     <ClCompile Include=".\Src\DevCalc.cpp" />
+    <ClCompile Include="Libs\mputils.cpp" />
     <ClCompile Include="Src\Config.cpp" />
     <ClCompile Include="Src\Helper.cpp" />
   </ItemGroup>
@@ -183,6 +185,7 @@
     <ClInclude Include=".\Libs\TinyJS\TinyJS_MathFunctions.h" />
     <ClInclude Include=".\Libs\ConfigFileInfo.h" />
     <ClInclude Include=".\Src\DevCalc.h" />
+    <ClInclude Include="Libs\mputils.h" />
     <ClInclude Include="Src\Config.h" />
     <ClInclude Include="Src\Helper.h" />
   </ItemGroup>

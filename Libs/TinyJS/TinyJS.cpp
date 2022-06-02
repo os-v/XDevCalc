@@ -121,6 +121,7 @@
 
 #include "TinyJS.h"
 #include <assert.h>
+#include <mputils.h>
 
 #define ASSERT(X) assert(X)
 /* Frees the given link IF it isn't owned by anything else */
@@ -735,10 +736,10 @@ CScriptVar::CScriptVar(const string &varData, int varFlags) {
     init();
     flags = varFlags;
     if (varFlags & SCRIPTVAR_INTEGER) {
-      intData = mpz_class(varData.c_str());
+      intData = MPZFromString(varData);
     } else if (varFlags & SCRIPTVAR_DOUBLE) {
-      doubleData = mpf_class(varData.c_str());
-    } else
+	  doubleData = MPFFromString(varData);
+	} else
       data = varData;
 }
 
@@ -2166,10 +2167,11 @@ bool CTinyJS::setVariable(const std::string &path, const std::string &varData) {
     // return result
     if (var) {
         if (var->isInt())
-            var->setInt(mpz_class(varData.c_str()));
-        else if (var->isDouble())
-            var->setDouble(mpf_class(varData.c_str()));
-        else
+            var->setInt(MPZFromString(varData));
+		else if (var->isDouble()) {
+			var->setDouble(MPFFromString(varData));
+		}
+		else
             var->setString(varData.c_str());
         return true;
     }    
